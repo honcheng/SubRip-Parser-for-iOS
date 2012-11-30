@@ -98,8 +98,9 @@
             NSString *startTimeString = [timeRange[0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             NSString *endTimeString = [timeRange[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             
-            subRipItem.startTime = [self timeIntervalFromSubRipTimeString:startTimeString];
-            subRipItem.endTime = [self timeIntervalFromSubRipTimeString:endTimeString];
+            subRipItem.startTime = [self timeIntervalFromSubRipTimeString:startTimeString] + self.timeOffset;
+            subRipItem.endTime = [self timeIntervalFromSubRipTimeString:endTimeString] + self.timeOffset;
+            
         }
         else return nil;
         

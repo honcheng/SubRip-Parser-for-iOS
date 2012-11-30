@@ -21,6 +21,7 @@
 
 @interface SubRipParser : NSObject
 @property (nonatomic, copy) NSString *subripContent;
+@property (nonatomic, assign) float timeOffset;
 - (id)initWithSubRipContent:(NSString*)subripContent;
 - (void)parseWithBlock:(void(^)(BOOL success, SubRipItems *item))block;
 @end
