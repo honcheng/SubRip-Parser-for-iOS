@@ -62,6 +62,7 @@
 {
     dispatch_async(dispatch_queue_create("parse subrip file", 0), ^{
         
+        self.subripContent = [self.subripContent stringByReplacingOccurrencesOfString:@"\n\r\n" withString:@"\n\n"];
         NSArray *textBlocks = [self.subripContent componentsSeparatedByString:@"\n\n"];
         NSMutableArray *items = [NSMutableArray array];
         for (NSString *text in textBlocks)
@@ -97,7 +98,7 @@
         {
             NSString *startTimeString = [timeRange[0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             NSString *endTimeString = [timeRange[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
+
             subRipItem.startTime = [self timeIntervalFromSubRipTimeString:startTimeString] + self.timeOffset;
             subRipItem.endTime = [self timeIntervalFromSubRipTimeString:endTimeString] + self.timeOffset;
             
@@ -118,7 +119,8 @@
 - (NSTimeInterval)timeIntervalFromSubRipTimeString:(NSString*)text
 {
     NSArray *components = [text componentsSeparatedByString:@","];
-    int miliseconds = [components[1] intValue];
+    int miliseconds = 0;
+    if ([components count]==2) miliseconds = [components[1] intValue];
     
     NSArray *hourMinSec = [components[0] componentsSeparatedByString:@":"];
     int hour = [hourMinSec[0] intValue];
