@@ -63,6 +63,7 @@
     dispatch_async(dispatch_queue_create("parse subrip file", 0), ^{
         
         self.subripContent = [self.subripContent stringByReplacingOccurrencesOfString:@"\n\r\n" withString:@"\n\n"];
+        self.subripContent = [self.subripContent stringByReplacingOccurrencesOfString:@"\n\n\n" withString:@"\n\n"];
         NSArray *textBlocks = [self.subripContent componentsSeparatedByString:@"\n\n"];
         NSMutableArray *items = [NSMutableArray array];
         for (NSString *text in textBlocks)
@@ -87,6 +88,7 @@
 {
     NSArray *lines = [text componentsSeparatedByString:@"\n"];
     // SubRipt format requires at least 3 lines
+    
     if ([lines count]>=3)
     {
         SubRipItem *subRipItem = [SubRipItem subRipItem];
@@ -103,7 +105,10 @@
             subRipItem.endTime = [self timeIntervalFromSubRipTimeString:endTimeString] + self.timeOffset;
             
         }
-        else return nil;
+        else
+        {
+            return nil;
+        }
         
         NSMutableString *text = [NSMutableString string];
         for (int i=2; i<[lines count]; i++)
@@ -113,7 +118,10 @@
         subRipItem.text = text;
         return subRipItem;
     }
-    else return nil;
+    else
+    {
+        return nil;
+    }
 }
 
 - (NSTimeInterval)timeIntervalFromSubRipTimeString:(NSString*)text
