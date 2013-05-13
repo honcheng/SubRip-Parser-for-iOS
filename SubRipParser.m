@@ -131,12 +131,19 @@
     if ([components count]==2) miliseconds = [components[1] intValue];
     
     NSArray *hourMinSec = [components[0] componentsSeparatedByString:@":"];
-    int hour = [hourMinSec[0] intValue];
-    int minute = [hourMinSec[1] intValue];
-    int second = [hourMinSec[2] intValue];
-    
-    NSTimeInterval timeInterval = hour*60*60 + minute*60 + second + miliseconds/1000.0;
-    return timeInterval;
+    if (hourMinSec.count>=3)
+    {
+        int hour = [hourMinSec[0] intValue];
+        int minute = [hourMinSec[1] intValue];
+        int second = [hourMinSec[2] intValue];
+        
+        NSTimeInterval timeInterval = hour*60*60 + minute*60 + second + miliseconds/1000.0;
+        return timeInterval;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 @end
